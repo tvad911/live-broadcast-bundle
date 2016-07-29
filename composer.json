@@ -14,15 +14,20 @@
         "doctrine/orm": "^2.3",
         "facebook/php-sdk-v4": "^5.2"
     },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^1.11",
+        "php-mock/php-mock-phpunit": ">=1.1.1 ^1.1",
+        "squizlabs/php_codesniffer": "^2.6",
+        "composer/composer": "^1.2"
+    },
     "suggest": {
         "sonata-project/doctrine-orm-admin-bundle": "Sonata admin (version 3.x) for easy broadcast planning"
     },
     "autoload": {
         "psr-4": { "Martin1982\\LiveBroadcastBundle\\": "" }
     },
-    "require-dev": {
-        "friendsofphp/php-cs-fixer": "^1.11",
-        "php-mock/php-mock-phpunit": ">=1.1.1 ^1.1",
-        "squizlabs/php_codesniffer": "^2.6"
+    "scripts": {
+        "post-install-cmd": "Martin1982\\LiveBroadcastBundle\\Composer\\InstallEvent::postInstall",
+        "post-update-cmd": "Martin1982\\LiveBroadcastBundle\\Composer\\InstallEvent::postUpdate"
     }
 }
