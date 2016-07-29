@@ -3,6 +3,7 @@
 namespace Martin1982\LiveBroadcastBundle\Admin;
 
 use Martin1982\LiveBroadcastBundle\Entity\Input\InputFile;
+use Martin1982\LiveBroadcastBundle\Entity\Input\InputRtmp;
 use Martin1982\LiveBroadcastBundle\Entity\Input\InputUrl;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -32,6 +33,11 @@ class InputAdmin extends AbstractAdmin
 
         if ($subject instanceof InputUrl) {
             $formMapper->add('url', 'text', array('label' => 'URL to videofile'));
+        }
+
+        if ($subject instanceof InputRtmp) {
+            $formMapper->add('streamKey', 'text', array('label' => 'Secret stream key'));
+            $formMapper->add('issuedTo', 'text', array('label' => 'Key owner'));
         }
 
         $formMapper->end()

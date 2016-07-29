@@ -61,6 +61,7 @@ class LiveBroadcastAdmin extends AbstractAdmin
     {
         $listMapper
             ->add('name')
+            ->add('input')
             ->add('outputChannels', 'sonata_type_model', array('label' => 'Channel(s)'))
             ->add('startTimestamp', 'datetime', array('label' => 'Start time'))
             ->add('endTimestamp', 'datetime', array('label' => 'End time'))
