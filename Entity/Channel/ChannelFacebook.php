@@ -5,7 +5,8 @@ namespace Martin1982\LiveBroadcastBundle\Entity\Channel;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Class ChannelFacebook.
+ * Class ChannelFacebook
+ * @package Martin1982\LiveBroadcastBundle\Entity\Channel
  *
  * @ORM\Table(name="channel_facebook", options={"collate"="utf8mb4_general_ci", "charset"="utf8mb4"})
  * @ORM\Entity()
@@ -72,5 +73,31 @@ class ChannelFacebook extends BaseChannel
     public function __toString()
     {
         return 'Facebook: '.$this->getChannelName();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function isEntityConfigured($configuration)
+    {
+        if (!array_key_exists('facebook', $configuration)) {
+            return false;
+        }
+
+        $facebookConfig = $configuration['facebook'];
+
+        if (!array_key_exists('application_id', $facebookConfig)) {
+            return false;
+        }
+
+        if (!array_key_exists('application_secret', $facebookConfig)) {
+            return false;
+        }
+
+        if (!$facebookConfig['application_id'] || !$facebookConfig['application_secret']) {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -3,7 +3,8 @@
 namespace Martin1982\LiveBroadcastBundle\Broadcaster;
 
 /**
- * Interface SchedulerCommandsInterface.
+ * Interface SchedulerCommandsInterface
+ * @package Martin1982\LiveBroadcastBundle\Broadcaster
  */
 interface SchedulerCommandsInterface
 {
@@ -34,6 +35,12 @@ interface SchedulerCommandsInterface
      * @return int|null
      */
     public function getProcessId($processString);
+
+    /**
+     * @param $processString
+     * @return bool
+     */
+    public function isMonitorStream($processString);
 
     /**
      * @param string $processString

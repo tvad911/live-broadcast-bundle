@@ -5,13 +5,14 @@ namespace Martin1982\LiveBroadcastBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Martin1982\LiveBroadcastBundle\Entity\Channel\BaseChannel;
-use Martin1982\LiveBroadcastBundle\Entity\Input\BaseInput;
+use Martin1982\LiveBroadcastBundle\Entity\Media\BaseMedia;
 
 /**
- * Class LiveBroadcast.
+ * Class LiveBroadcast
+ * @package Martin1982\LiveBroadcastBundle\Entity
  *
  * @ORM\Table(name="live_broadcast", options={"collate"="utf8mb4_general_ci", "charset"="utf8mb4"})
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Martin1982\LiveBroadcastBundle\Entity\LiveBroadcastRepository")
  */
 class LiveBroadcast
 {
@@ -39,9 +40,9 @@ class LiveBroadcast
     private $description;
 
     /**
-     * @var BaseInput
+     * @var BaseMedia
      *
-     * @ORM\OneToOne(targetEntity="Martin1982\LiveBroadcastBundle\Entity\Input\BaseInput")
+     * @ORM\OneToOne(targetEntity="Martin1982\LiveBroadcastBundle\Entity\Media\BaseMedia")
      * @ORM\JoinColumn(name="input_id", referencedColumnName="id")
      */
     private $input;
@@ -59,6 +60,13 @@ class LiveBroadcast
      * @ORM\Column(name="broadcast_end", type="datetime", nullable=false)
      */
     private $endTimestamp;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="stop_on_end_timestamp", type="boolean", nullable=false)
+     */
+    private $stopOnEndTimestamp = true;
 
     /**
      * @var BaseChannel
@@ -228,7 +236,7 @@ class LiveBroadcast
     }
 
     /**
-     * @return BaseInput
+     * @return BaseMedia
      */
     public function getInput()
     {
@@ -236,13 +244,33 @@ class LiveBroadcast
     }
 
     /**
-     * @param BaseInput $input
+     * @param BaseMedia $input
      *
      * @return LiveBroadcast
      */
-    public function setInput(BaseInput $input)
+    public function setInput(BaseMedia $input)
     {
         $this->input = $input;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isStopOnEndTimestamp()
+    {
+        return $this->stopOnEndTimestamp;
+    }
+
+    /**
+     * @param boolean $stopOnEndTimestamp
+     *
+     * @return LiveBroadcast
+     */
+    public function setStopOnEndTimestamp($stopOnEndTimestamp)
+    {
+        $this->stopOnEndTimestamp = $stopOnEndTimestamp;
 
         return $this;
     }

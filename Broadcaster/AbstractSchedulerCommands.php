@@ -2,16 +2,22 @@
 
 namespace Martin1982\LiveBroadcastBundle\Broadcaster;
 
+use Martin1982\LiveBroadcastBundle\Exception\LiveBroadcastException;
+
 /**
- * Class SchedulerCommands.
+ * Class AbstractSchedulerCommands
+ * @package Martin1982\LiveBroadcastBundle\Broadcaster
  */
 abstract class AbstractSchedulerCommands implements SchedulerCommandsInterface
 {
     const METADATA_BROADCAST = 'broadcast_id';
     const METADATA_CHANNEL = 'channel_id';
     const METADATA_ENVIRONMENT = 'env';
+    const METADATA_MONITOR = 'monitor_stream';
 
     /**
+     * Symfony kernel environment name
+     *
      * @var string
      */
     protected $kernelEnvironment;
@@ -43,18 +49,20 @@ abstract class AbstractSchedulerCommands implements SchedulerCommandsInterface
 
     /**
      * {@inheritdoc}
+     * @throws LiveBroadcastException
      */
     public function stopProcess($pid)
     {
-        throw new \Exception('stopProcess Cannot be called on the abstract class');
+        throw new LiveBroadcastException('stopProcess Cannot be called on the abstract class');
     }
 
     /**
      * {@inheritdoc}
+     * @throws LiveBroadcastException
      */
     public function getRunningProcesses()
     {
-        throw new \Exception('getRunningProcesses Cannot be called on the abstract class');
+        throw new LiveBroadcastException('getRunningProcesses Cannot be called on the abstract class');
     }
 
     /**
@@ -68,6 +76,14 @@ abstract class AbstractSchedulerCommands implements SchedulerCommandsInterface
         }
 
         return 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isMonitorStream($processString)
+    {
+        return ($this->getMetadataValue($processString, self::METADATA_MONITOR) === 'yes');
     }
 
     /**

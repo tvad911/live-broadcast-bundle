@@ -3,9 +3,8 @@
 namespace Martin1982\LiveBroadcastBundle\EventListener;
 
 use Martin1982\LiveBroadcastBundle\Event\PreBroadcastEvent;
-use Martin1982\LiveBroadcastBundle\Events;
-use Martin1982\LiveBroadcastBundle\Streams\Output\Facebook;
-use Martin1982\LiveBroadcastBundle\Streams\Service\FacebookLiveService;
+use Martin1982\LiveBroadcastBundle\Service\StreamOutput\OutputFacebook;
+use Martin1982\LiveBroadcastBundle\Service\FacebookApiService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -15,17 +14,17 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class FacebookPreBroadcastListener implements EventSubscriberInterface
 {
     /**
-     * @var FacebookLiveService
+     * @var FacebookApiService
      */
-    private $facebookLiveService;
+    private $facebookApiService;
 
     /**
      * FacebookPreBroadcastListener constructor.
-     * @param FacebookLiveService $facebookLiveService
+     * @param FacebookApiService $facebookApiService
      */
-    public function __construct(FacebookLiveService $facebookLiveService)
+    public function __construct(FacebookApiService $facebookApiService)
     {
-        $this->facebookLiveService = $facebookLiveService;
+        $this->facebookApiService = $facebookApiService;
     }
 
     /**
@@ -36,8 +35,8 @@ class FacebookPreBroadcastListener implements EventSubscriberInterface
         $liveBroadcast = $event->getLiveBroadcast();
         $output = $event->getOutput();
 
-        if ($output instanceof Facebook) {
-            $streamUrl = $this->facebookLiveService->createFacebookLiveVideo($liveBroadcast, $output);
+        if ($output instanceof OutputFacebook) {
+            $streamUrl = $this->facebookApiService->createFacebookLiveVideo($liveBroadcast, $output);
             $output->setStreamUrl($streamUrl);
         }
     }
@@ -47,6 +46,6 @@ class FacebookPreBroadcastListener implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(Events::LIVE_BROADCAST_PRE_BROADCAST => 'onPreBroadcast');
+        return array(PreBroadcastEvent::NAME => 'onPreBroadcast');
     }
 }
