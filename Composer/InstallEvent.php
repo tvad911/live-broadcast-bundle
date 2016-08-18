@@ -14,6 +14,7 @@ use Composer\Util\Filesystem;
  */
 class InstallEvent
 {
+    const PACKAGE_NAME = 'martin1982/live-broadcast-bundle';
     const RED5_DEFAULT_INSTALL_PATH = 'lib/red5';
     const RED5_RELEASE_REQUIREMENT = 'v1.0.7-RELEASE';
     const RED5_RELEASE_ZIP_URL = 'https://github.com/Red5/red5-server/releases/download/v1.0.7-RELEASE/red5-server-1.0.7-RELEASE.zip';
@@ -51,7 +52,7 @@ class InstallEvent
 
         $composer = $event->getComposer();
         $inputOutput = $event->getIO();
-        $packageName = $composer->getPackage()->getName();
+        $packageName = self::PACKAGE_NAME;
 
         $inputOutput->write(sprintf('%s requires Red5 for RTMP input', $packageName));
         $inputOutput->write('Checking current Red 5 installation');
